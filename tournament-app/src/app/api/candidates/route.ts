@@ -1,0 +1,140 @@
+import { NextResponse } from 'next/server';
+
+// Candidate data
+const candidates = [
+  {
+    "name": "Ariana Chen",
+    "intro": "Thiel Fellow and co-founder of NeuroSynth, an AI startup acquired for $150M in 2024; led product and research teams to develop neural decoding algorithms now used by major neuroscience labs; published three papers at NeurIPS before age 22."
+  },
+  {
+    "name": "Raj Patel",
+    "intro": "Early founding team member at OpenWave Health (exit $200M); led backend architecture and scaled user base to 500k active users; former Stripe intern and guest lecturer on microservices at Stanford CS department."
+  },
+  {
+    "name": "Emily Vasquez",
+    "intro": "Junior at MIT studying Computer Science and Linguistics; building multilingual NLP tools for low-resource languages; interned at Hugging Face on model compression; organizes hackathons focused on social impact."
+  },
+  {
+    "name": "Marcus Liu",
+    "intro": "Senior at Carnegie Mellon University majoring in Robotics and AI; developed an autonomous drone navigation system that won first place at RoboCup; interned at Boston Dynamics on locomotion algorithms."
+  },
+  {
+    "name": "Sofia Martinez",
+    "intro": "Second-year at Stanford studying Bioengineering; researching wearable sensors for glucose monitoring; co-authored poster at IEEE EMBC; volunteer STEM mentor for underrepresented high schoolers."
+  },
+  {
+    "name": "Ethan Kim",
+    "intro": "Sophomore at Georgia Tech in Cybersecurity; built a secure messaging app using Signal Protocol; interned at Cloudflare on DDoS mitigation; organizes weekly Capture the Flag events on campus."
+  },
+  {
+    "name": "Priya Desai",
+    "intro": "Graduate student in Data Science at UC Berkeley; created a dashboard to visualize climate risk metrics; contributed to open-source geospatial analytics libraries; previously worked at Bloomberg in quantitative research."
+  },
+  {
+    "name": "Omar Hassan",
+    "intro": "Third-year Computer Science major at University of Toronto; built an accessibility plugin for the Chrome browser; interned at Shopify on accessibility compliance; leads campus chapter of Women Who Code."
+  },
+  {
+    "name": "Isabella Rossi",
+    "intro": "Senior in Electrical Engineering at UCLA; designed a low-power IoT sensor network for smart agriculture; interned at Intel on edge computing; published in ACM SenSys conference."
+  },
+  {
+    "name": "Lucas Nguyen",
+    "intro": "Sophomore at University of Washington studying Human-Computer Interaction; developing a VR collaboration tool for remote teams; interned at Microsoft Research on mixed reality interfaces."
+  },
+  {
+    "name": "Aaliyah Johnson",
+    "intro": "Junior at Harvard studying Applied Math and Statistics; leading a team developing predictive models for financial risk; interned at Citadel on quantitative strategies."
+  },
+  {
+    "name": "Diego Silva",
+    "intro": "Second-year at Princeton majoring in Physics and Computer Science; building GPU-accelerated simulations of plasma flows; research assistant in astrophysics lab."
+  },
+  {
+    "name": "Chloe Park",
+    "intro": "Senior at Yale studying Cognitive Science; designed a chatbot for mental health screening; interned at Woebot Labs; co-founded campus mental health hackathon."
+  },
+  {
+    "name": "Noah Johnson",
+    "intro": "Graduate student in Machine Learning at CMU; developed a reinforcement learning framework for robotic manipulation; interned at OpenAI on policy optimization."
+  },
+  {
+    "name": "Maya Singh",
+    "intro": "Sophomore at University of Illinois Urbana-Champaign in Software Engineering; built a decentralized file storage prototype; contributor to Apache Hadoop; hackathon winner at HackUIUC."
+  },
+  {
+    "name": "Henry Zhao",
+    "intro": "Third-year at University of Texas at Austin studying Computational Engineering; created a real-time traffic optimization model; interned at Tesla on vehicle routing algorithms."
+  },
+  {
+    "name": "Lily Carter",
+    "intro": "Junior at Brown University in Neuroscience and CS; researching brain-computer interfaces; built an open-source toolkit for EEG analysis; interned at Neuralink."
+  },
+  {
+    "name": "Samuel Brooks",
+    "intro": "Senior at Columbia University studying Financial Engineering; built an algorithmic trading bot with Sharpe ratio of 1.8; interned at Two Sigma on market microstructure."
+  },
+  {
+    "name": "Zoe Kim",
+    "intro": "Second-year at Georgia Tech in Biomedical Informatics; developed a pipeline for single-cell RNA-seq analysis; research assistant publishing in Bioinformatics journal."
+  },
+  {
+    "name": "Jackson Lee",
+    "intro": "Sophomore at University of Michigan studying Robotics; built self-driving car prototype with ROS; interned at Ford on autonomous vehicle safety."
+  },
+  {
+    "name": "Avery Thompson",
+    "intro": "Junior at UC San Diego in Computer Science; developing privacy-preserving analytics for healthcare data; interned at Facebook on differential privacy."
+  },
+  {
+    "name": "Gabriella Ramirez",
+    "intro": "Senior at University of Pennsylvania studying Bioengineering; created a microfluidic device for rapid diagnostics; interned at Genentech in research and development."
+  },
+  {
+    "name": "Owen Wilson",
+    "intro": "Third-year at University of Wisconsin–Madison in Data Science; built a platform for visualizing public health trends; interned at CDC on outbreak modeling."
+  },
+  {
+    "name": "Ella Fischer",
+    "intro": "Sophomore at Northwestern University in Computer Science; developing a real-time collaboration tool for musicians; interned at Spotify on audio signal processing."
+  },
+  {
+    "name": "Caleb Morgan",
+    "intro": "Junior at Rice University studying Electrical and Computer Engineering; built a fault-tolerant FPGA accelerator; interned at NVIDIA on hardware design."
+  },
+  {
+    "name": "Nina Gupta",
+    "intro": "Senior at Dartmouth College in Environmental Science and CS; created a web app for wildfire prediction; interned at NASA on satellite imagery analysis."
+  },
+  {
+    "name": "Leo Martinez",
+    "intro": "Second-year at University of Southern California in Interactive Media & Games; developing an AR educational game; interned at Unity Technologies."
+  },
+  {
+    "name": "Harper Blake",
+    "intro": "Junior at University of Maryland studying Statistics; built a machine learning model for sports analytics; interned at ESPN on live data pipelines."
+  },
+  {
+    "name": "Julian Torres",
+    "intro": "Sophomore at University of Florida in Computer Engineering; developed a LoRaWAN network for environmental sensing; interned at Cisco on IoT security."
+  },
+  {
+    "name": "Mia Patel",
+    "intro": "Third-year at University of Arizona in Astrophysics and CS; built a telescope control system with real-time image processing; research assistant analyzing exoplanet data."
+  },
+  {
+    "name": "Eli Walker",
+    "intro": "Senior at Boston University studying Software Engineering; created a peer-to-peer tutoring platform; interned at Google on scalable backend services."
+  },
+  {
+    "name": "Sophia Nguyen",
+    "intro": "Graduate student at Stanford in Human-Computer Interaction; researching adaptive UI for accessibility; interned at Adobe on design systems."
+  }
+];
+
+export async function GET() {
+  return NextResponse.json({
+    candidates,
+    totalCount: candidates.length
+  });
+} 
