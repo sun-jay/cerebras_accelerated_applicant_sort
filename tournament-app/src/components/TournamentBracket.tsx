@@ -1,6 +1,6 @@
 'use client';
 
-import { Candidate, TournamentState, Match } from '@/types/tournament';
+import { Candidate, TournamentState } from '@/types/tournament';
 
 interface TournamentBracketProps {
   tournamentState: TournamentState;
@@ -10,14 +10,7 @@ interface TournamentBracketProps {
   allCandidates: Candidate[];
 }
 
-interface BracketNode {
-  candidate?: Candidate;
-  match?: Match;
-  round: number;
-  position: number;
-  isWinner?: boolean;
-  isEmpty?: boolean;
-}
+// Removed unused BracketNode interface
 
 export function TournamentBracket({ tournamentState, settings, allCandidates }: TournamentBracketProps) {
   // Calculate the number of rounds needed

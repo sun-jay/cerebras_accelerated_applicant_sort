@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { tournamentAPI } from '@/lib/tournament-api';
 import { Candidate, TournamentState, RoundData } from '@/types/tournament';
 import { TournamentSettings } from '@/components/TournamentSettings';
 import { TournamentProgress } from '@/components/TournamentProgress';
-import { ChampionDisplay } from '@/components/ChampionDisplay';
+// Removed unused ChampionDisplay import
 import { CandidateGrid } from '@/components/CandidateGrid';
 import { TournamentHistory } from '@/components/TournamentHistory';
 import { TabSystem } from '@/components/TabSystem';
@@ -122,7 +122,7 @@ export default function Home() {
       
       return () => clearTimeout(timer);
     }
-  }, [tournamentState.currentRound, tournamentState.currentCandidates.length, tournamentState.isComplete, isLoading, error, isPaused]);
+  }, [tournamentState.currentRound, tournamentState.currentCandidates.length, tournamentState.isComplete, isLoading, error, isPaused, runNextRound]);
 
   const resetTournament = () => {
     setTournamentState({

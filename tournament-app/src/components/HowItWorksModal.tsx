@@ -91,6 +91,7 @@ export function HowItWorksModal({ isOpen, onClose }: HowItWorksModalProps) {
                 {/* Right Column - Image */}
                 <div>
                   <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img 
                       src="/gpuadd.png" 
                       alt="GPU Reduction Algorithm Visualization" 
@@ -107,6 +108,7 @@ export function HowItWorksModal({ isOpen, onClose }: HowItWorksModalProps) {
             {activeTab === 'architecture' && (
               <div className="flex flex-col items-center">
           
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src="/diagram.jpg" 
                     alt="System Architecture Diagram" 
@@ -127,7 +129,7 @@ export function HowItWorksModal({ isOpen, onClose }: HowItWorksModalProps) {
               onClick={onClose}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors"
             >
-              Got it! Let's process some candidates 🧠
+              Got it! Let&apos;s process some candidates 🧠
             </button>
           </div>
         </div>

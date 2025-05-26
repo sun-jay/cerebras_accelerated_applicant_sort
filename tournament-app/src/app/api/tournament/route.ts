@@ -14,11 +14,7 @@ interface Match {
   batch: number;
 }
 
-interface RoundData {
-  round: number;
-  matches: Match[];
-  total_batches: number;
-}
+// Removed unused RoundData interface
 
 // Removed unused TournamentResult interface
 
@@ -58,6 +54,7 @@ async function callCerebras(prompt: string): Promise<{ response: string; thinkin
       model: 'qwen-3-32b',
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const content = (chatCompletion.choices as any)[0].message.content || '';
 
     // Parse out the <think>...</think> section and the actual response
@@ -69,8 +66,8 @@ async function callCerebras(prompt: string): Promise<{ response: string; thinkin
 
     return { response, thinking };
 
-  } catch (error) {
-    throw new Error(`Cerebras API error: ${error}`);
+  } catch (err) {
+    throw new Error(`Cerebras API error: ${err}`);
   }
 }
 
@@ -134,7 +131,7 @@ export async function GET() {
       message: "Tournament API is running - stateless round processor",
       description: "Send candidates to /api/tournament POST to run a single round"
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to get tournament info' },
       { status: 500 }

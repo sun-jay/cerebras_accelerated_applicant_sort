@@ -8,7 +8,11 @@ interface TournamentSettingsProps {
     batchSize: number;
     role: string;
   };
-  onSettingsChange: (newSettings: any) => void;
+  onSettingsChange: (newSettings: {
+    candidateCount: number;
+    batchSize: number;
+    role: string;
+  }) => void;
   allCandidates: Candidate[];
   onStartTournament: () => void;
 }

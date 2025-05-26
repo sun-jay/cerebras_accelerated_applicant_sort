@@ -12,7 +12,7 @@ interface AnimatedTournamentBracketProps {
 
 
 
-export function AnimatedTournamentBracket({ tournamentTree, autoMode }: AnimatedTournamentBracketProps) {
+export function AnimatedTournamentBracket({ tournamentTree }: AnimatedTournamentBracketProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [animatingLevels, setAnimatingLevels] = useState<Set<number>>(new Set());
   const [activatingWinners, setActivatingWinners] = useState<Set<string>>(new Set());
@@ -72,7 +72,7 @@ export function AnimatedTournamentBracket({ tournamentTree, autoMode }: Animated
     }
     
     previousTreeLengthRef.current = tournamentTree.length;
-  }, [tournamentTree.length]);
+  }, [tournamentTree]);
 
 
 
