@@ -14,14 +14,7 @@ interface Match {
   batch: number;
 }
 
-// Removed unused RoundData interface
-
-// Removed unused TournamentResult interface
-
-
 // Utility functions
-// Utility functions
-
 function createBatches(pairs: [Candidate, Candidate][], batchSize: number): [Candidate, Candidate][][] {
   if (batchSize % 2 !== 0) {
     throw new Error(`Batch size must be even, got ${batchSize}`);
