@@ -24,7 +24,7 @@ export function TournamentSettings({
       <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
         Tournament Settings
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Number of Candidates
@@ -36,20 +36,6 @@ export function TournamentSettings({
           >
             {[4, 8, 16, 32].map(count => (
               <option key={count} value={count}>{count}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Batch Size
-          </label>
-          <select
-            value={settings.batchSize}
-            onChange={(e) => onSettingsChange({ ...settings, batchSize: parseInt(e.target.value) })}
-            className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-          >
-            {[2, 4, 6, 8].map(size => (
-              <option key={size} value={size}>{size}</option>
             ))}
           </select>
         </div>

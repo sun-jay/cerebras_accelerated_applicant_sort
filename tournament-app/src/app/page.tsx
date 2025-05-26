@@ -9,7 +9,8 @@ import { ChampionDisplay } from '@/components/ChampionDisplay';
 import { CandidateGrid } from '@/components/CandidateGrid';
 import { TournamentHistory } from '@/components/TournamentHistory';
 import { TabSystem } from '@/components/TabSystem';
-import { TournamentBracket } from '@/components/TournamentBracket';
+import { AnimatedTournamentBracket } from '@/components/AnimatedTournamentBracket';
+import { HowItWorksButton } from '@/components/HowItWorksModal';
 
 export default function Home() {
   const [allCandidates, setAllCandidates] = useState<Candidate[]>([]);
@@ -26,7 +27,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('candidates');
   const [settings, setSettings] = useState({
     candidateCount: 8,
-    batchSize: 2,
+    batchSize: 8,
     role: 'software engineering',
   });
 
@@ -136,34 +137,37 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
-      <div className="max-w-6xl mx-auto">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            🏆 AI-Powered Candidate Tournament
-          </h1>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-1">
+      <div className="max-w-7xl mx-auto">
+        <header className="text-center mb-2">
+          <div className="flex justify-center items-center gap-4 mb-2">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+              🧠 Cerebras-Accelerated Binary Reduction Candidate Sorter
+            </h1>
+            <HowItWorksButton />
+          </div>
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            Cerebras-accelerated elimination tournament for finding the best candidates
+            Efficiently process millions of resumes with binary reduction and Cerebras accelerated inference
           </p>
         </header>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-2">
             {error}
           </div>
         )}
 
-        {/* Tournament Settings */}
+        {/* Processing Settings */}
         {tournamentState.currentRound === 0 && (
           <TournamentSettings
             settings={settings}
-            onSettingsChange={setSettings}
+            onSettingsChange={(newSettings) => setSettings({ ...newSettings, batchSize: 8 })}
             allCandidates={allCandidates}
             onStartTournament={startTournament}
           />
         )}
 
-        {/* Tournament Progress */}
+        {/* Processing Progress */}
         <TournamentProgress
           tournamentState={tournamentState}
           editedCandidates={editedCandidates}
@@ -173,8 +177,7 @@ export default function Home() {
           onReset={resetTournament}
         />
 
-        {/* Champion */}
-        <ChampionDisplay tournamentState={tournamentState} />
+
 
         {/* Tournament Views */}
         {allCandidates.length > 0 && (
@@ -191,7 +194,7 @@ export default function Home() {
               },
               {
                 id: 'bracket',
-                label: 'Tournament Bracket',
+                label: 'Binary Reduction Tree',
                 icon: (
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -234,16 +237,44 @@ export default function Home() {
             )}
             
             {activeTab === 'bracket' && (
-              <TournamentBracket
-                tournamentState={tournamentState}
-                settings={settings}
-                allCandidates={allCandidates}
+              <AnimatedTournamentBracket
+                tournamentTree={(() => {
+                  // Convert processing state to the format expected by AnimatedTournamentBracket
+                  const tree: Candidate[][] = [];
+                  
+                  if (tournamentState.currentRound > 0) {
+                    // Reconstruct the starting candidates from the first round matches
+                    if (tournamentState.eliminationTree.length > 0) {
+                      const firstRound = tournamentState.eliminationTree[0];
+                      const startingCandidates: Candidate[] = [];
+                      firstRound.matches.forEach(match => {
+                        startingCandidates.push(match.candidate1, match.candidate2);
+                      });
+                      tree.push(startingCandidates);
+                    } else {
+                      // If no rounds completed yet, use current candidates
+                      tree.push([...tournamentState.currentCandidates]);
+                    }
+                    
+                    // Add each completed round's winners
+                    tournamentState.eliminationTree.forEach(roundData => {
+                      const winners: Candidate[] = [];
+                      roundData.matches.forEach(match => {
+                        winners.push(match.winner);
+                      });
+                      tree.push(winners);
+                    });
+                  }
+                  
+                  return tree;
+                })()}
+                autoMode={false}
               />
             )}
           </TabSystem>
         )}
 
-        {/* Tournament History */}
+        {/* Processing History */}
         <TournamentHistory tournamentState={tournamentState} />
       </div>
     </div>
