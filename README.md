@@ -1,7 +1,7 @@
 
 # 🏆 Cerebras Accelerated Applicant Sort
 
-  
+## LIVE: https://cerebras-accelerated-applicant-sort.vercel.app/
 
 This candidate sorting system takes inspiration from GPU reduction algorithms used in parallel computing. Just like how GPUs efficiently reduce large datasets by processing pairs in parallel, our AI-powered system eliminates candidates in a structured, logarithmic fashion to quickly find the best matches.
 
