@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { tournamentAPI } from '@/lib/tournament-api';
 import { Candidate, TournamentState, RoundData } from '@/types/tournament';
 import { TournamentSettings } from '@/components/TournamentSettings';
@@ -137,6 +137,11 @@ export default function Home() {
     setIsPaused(false);
     setActiveTab('candidates');
   };
+
+  // Ensure the Binary Reduction Tree is shown while the tournament runs
+  useEffect(() => {
+    setActiveTab(tournamentState.currentRound > 0 ? 'bracket' : 'candidates');
+  }, [tournamentState.currentRound]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-1">
