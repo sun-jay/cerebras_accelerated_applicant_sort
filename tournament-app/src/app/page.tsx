@@ -69,6 +69,7 @@ export default function Home() {
       isComplete: false,
     });
     setError(null);
+    setActiveTab('bracket');
   };
 
   const runNextRound = async () => {
@@ -134,6 +135,7 @@ export default function Home() {
     setEditedCandidates(new Set());
     setError(null);
     setIsPaused(false);
+    setActiveTab('candidates');
   };
 
   return (
